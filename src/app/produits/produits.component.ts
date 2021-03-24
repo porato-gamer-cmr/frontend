@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ProduitsService } from '../services/produits.service';
@@ -8,7 +8,7 @@ import { ProduitsService } from '../services/produits.service';
   templateUrl: './produits.component.html',
   styleUrls: ['./produits.component.css']
 })
-export class ProduitsComponent implements OnInit {
+export class ProduitsComponent implements OnInit, OnDestroy {
 
   produits: any[];
   produitsFilter: any[];
@@ -27,12 +27,22 @@ export class ProduitsComponent implements OnInit {
   constructor(private produitsService: ProduitsService) { }
 
   ngOnInit(): void {
-    this.produits = this.produitsService.produits;
-    this.produitsFilter = this.produits;
+    this.produitsService.listProduits();
+    this.produits=this.produitsService.produits;
+    for(let i=0; i<5; i++){console.log(this.produitsService.produits[i].name+"µµµµ");}
+    this.produitsSubscription = this.produitsService.produitsSubject.subscribe(
+      (data: any[])=>{
+        console.log("bonjour");
+        this.produits = data;
+        this.produitsService.emitProduitsSubject();
+        for(let i=0; i<5; i++){console.log(this.produits[i].alerte+"µµµµ");}
+
+      }
+    );
+    
   }
 
-  infoProduits(produits, index){
-    this.index = index;
+  infoProduits(produits){
     this.id = produits.id;
     this.name = produits.name;
     this.quantite = produits.quantite;
@@ -54,13 +64,14 @@ export class ProduitsComponent implements OnInit {
       alerte: this.alerte
     };
 
-    this.produitsService.updateProduits(this.produitEdit, this.index);
+    this.produitsService.updateProduits(this.produitEdit);
     this.produitsService.emitProduitsSubject();
 
   }
 
   deleteProduits(id){
     this.produitsService.deleteProduits(id);
+    this.produitsService.emitProduitsSubject();
   }
 
   addProduits(form: NgForm){

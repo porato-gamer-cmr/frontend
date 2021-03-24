@@ -14,19 +14,7 @@ export class ProduitsService {
   produitsSubject = new Subject<any[]>();
   produitsFilterSubject = new Subject<any[]>();
 
-  produits=[{
-    name: "Ardoise",
-    quantite: 12,
-    securite: 2,
-    alerte: 1
-  },
-  {
-    name: "Ordi",
-    quantite: 15,
-    securite: 5,
-    alerte: 2
-  }
-];
+  produits=[];
   produitsFilter;
 
   emitProduitsSubject(){
@@ -37,7 +25,7 @@ export class ProduitsService {
     this.produitsFilterSubject.next(this.produitsFilter.slice());
   }
 
-
+/** 
   addProduits(produits){
     this.produits.push(produits);
   }
@@ -53,16 +41,21 @@ export class ProduitsService {
 
   }
 }
+**/
 
-  /** listProduits(){
+  listProduits(){
     this.httpClient.get(this.url + "listproduits")
       .subscribe(
-        (data)=>{
+        (data: any[])=>{
           this.produits = data;
           this.emitProduitsSubject
+          console.log("reussite lors de la récuperation des produits");
+          for(let i=0; i<this.produits.length; i++){
+            console.log(this.produits[i].name+"//");
+          }
         },
         (error)=>{
-          alert("probleme lors de la récuperation des produits" + error);
+          console.log("probleme lors de la récuperation des produits" + error);
         }
       );
   }
@@ -81,7 +74,7 @@ export class ProduitsService {
   }
 
   updateProduits(produits){
-    this.httpClient.post<any[]>(this.url + "updateproduits" + produits.id, produits)
+    this.httpClient.post<any[]>(this.url + "updateproduits", produits)
       .subscribe(
         (data)=>{
           this.listProduits();
@@ -106,5 +99,5 @@ export class ProduitsService {
         )
     }
 
-  } **/
+  } 
 }

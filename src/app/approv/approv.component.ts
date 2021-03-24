@@ -56,7 +56,7 @@ export class ApprovComponent implements OnInit {
       alerte: this.alerte
     };
 
-    this.produitsService.updateProduits(this.produitEdit, this.index);
+    this.produitsService.updateProduits(this.produitEdit);
     this.produitsService.emitProduitsSubject();
 
   }
