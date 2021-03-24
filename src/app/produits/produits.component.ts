@@ -21,21 +21,18 @@ export class ProduitsComponent implements OnInit {
   @Input() alerte;
   @Input() id;
   @Input() e;
+  @Input() index;
   p: Boolean;
 
   constructor(private produitsService: ProduitsService) { }
 
   ngOnInit(): void {
-    this.produitsService.listProduits();
-    this.produitsSubscription = this.produitsService.produitsSubject.subscribe(
-      (produits: any[])=>{
-        this.produits = produits;
-        this.produitsFilter = this.produits;
-      }
-    );
+    this.produits = this.produitsService.produits;
+    this.produitsFilter = this.produits;
   }
 
-  infoProduits(produits){
+  infoProduits(produits, index){
+    this.index = index;
     this.id = produits.id;
     this.name = produits.name;
     this.quantite = produits.quantite;
@@ -57,7 +54,7 @@ export class ProduitsComponent implements OnInit {
       alerte: this.alerte
     };
 
-    this.produitsService.updateProduits(this.produitEdit);
+    this.produitsService.updateProduits(this.produitEdit, this.index);
     this.produitsService.emitProduitsSubject();
 
   }

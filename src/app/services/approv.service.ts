@@ -5,51 +5,43 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ProduitsService {
+export class ApprovService {
+
   url="http://172.16.16.195:8000/stock/";
   p: Boolean;
 
   constructor(private httpClient: HttpClient) { }
 
-  produitsSubject = new Subject<any[]>();
-  produitsFilterSubject = new Subject<any[]>();
+  approvsSubject = new Subject<any[]>();
+  approvsFilterSubject = new Subject<any[]>();
 
-  produits=[{
-    name: "Ardoise",
-    quantite: 12,
-    securite: 2,
-    alerte: 1
-  },
-  {
-    name: "Ordi",
+  approvs=[{
+    name: "Formats",
     quantite: 15,
-    securite: 5,
-    alerte: 2
-  }
-];
-  produitsFilter;
+  }];
+  approvsFilter;
 
-  emitProduitsSubject(){
-    this.produitsSubject.next(this.produits.slice());
+  emitApprovsSubject(){
+    this.approvsSubject.next(this.approvs.slice());
   }
 
-  emitProduitsFilterSubject(){
-    this.produitsFilterSubject.next(this.produitsFilter.slice());
+  emitApprovsFilterSubject(){
+    this.approvsFilterSubject.next(this.approvsFilter.slice());
   }
 
 
-  addProduits(produits){
-    this.produits.push(produits);
+  addApprov(produits){
+    this.approvs.push(produits);
   }
 
   updateProduits(produits, index){
-    this.produits.splice(index,1,produits);
+    this.approvs.splice(index,1,produits);
   }
 
   deleteProduits(id){
     this.p = confirm("Voulez-vous vraiment supprimer ?");
     if(this.p){
-      this.produits.splice(id,1);
+      this.approvs.splice(id,1);
 
   }
 }

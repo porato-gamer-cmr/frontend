@@ -22,14 +22,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="row_table" *ngFor="let produit of produitsFilter;">
+                  <tr class="row_table" *ngFor="let produit of produitsFilter; let index=index;">
                     <td>{{ produit.name }}</td>
                     <td>{{ produit.quantite }}</td>
                     <td>{{ produit.securite }}</td>
                     <td>{{ produit.alerte }}</td>
                     <td>
-                      <i class="fa fa-pencil mr-3" data-toggle="modal" data-target="#editproduitform" (click)="infoProduits(produit)"></i>
-                      <i class="fa fa-trash mr-3" (click)="deleteProduits(produit.id)"></i>
+                      <i class="fa fa-pencil mr-3" data-toggle="modal" data-target="#editproduitform" (click)="infoProduits(produit, index)"></i>
+                      <i class="fa fa-trash mr-3" (click)="deleteProduits(index)"></i>
                     </td>
   
                   </tr>

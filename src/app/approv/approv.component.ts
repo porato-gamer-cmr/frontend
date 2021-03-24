@@ -1,17 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ApprovService } from '../services/approv.service';
 import { ProduitsService } from '../services/produits.service';
 
 @Component({
-  selector: 'app-reapprov',
-  templateUrl: './reapprov.component.html',
-  styleUrls: ['./reapprov.component.css']
+  selector: 'app-approv',
+  templateUrl: './approv.component.html',
+  styleUrls: ['./approv.component.css']
 })
-export class ReapprovComponent implements OnInit {
+export class ApprovComponent implements OnInit {
 
   produits: any[];
-  produitsFilter: any[];
+  approvs: any[];
+  approvsFilter: any[];
   produitEdit;
   produitsSubscription: Subscription;
   produitsFilterSubscription: Subscription;
@@ -23,21 +25,21 @@ export class ReapprovComponent implements OnInit {
   @Input() e;
   @Input() index;
   p: Boolean;
+  @Input() nbr=1;
+  
 
-  constructor(private produitsService: ProduitsService) { }
+  constructor(private approvService: ApprovService, private produitsService: ProduitsService) { }
 
   ngOnInit(): void {
     this.produits = this.produitsService.produits;
-    this.produitsFilter = this.produits;
+    this.approvs = this.approvService.approvs;
+    this.approvsFilter = this.approvs;
   }
 
-  infoProduits(produits, index){
+  infoApprov(approv, index){
     this.index = index;
-    this.id = produits.id;
-    this.name = produits.name;
-    this.quantite = produits.quantite;
-    this.securite = produits.securite;
-    this.alerte = produits.alerte;
+    this.name = approv.name;
+    this.quantite = approv.quantite;
   }
 
   updateProduits(form: NgForm){
@@ -63,32 +65,38 @@ export class ReapprovComponent implements OnInit {
     this.produitsService.deleteProduits(id);
   }
 
-  addProduits(form: NgForm){
+  addApprov(form: NgForm){
     let produits = {
       name: form.value.name,
-      quantite: form.value.quantite,
-      securite: form.value.securite,
-      alerte: form.value.alerte
+      quantite: form.value.quantite
     };
-    this.produitsService.addProduits(produits);
+    this.approvService.addApprov(produits);
   }
 
-  searchProduit(){
-    this.produitsFilter = [];
+  searchApprov(){
+    this.approvsFilter = [];
     if(!this.e){this.e="";}
     p: RegExp("  ","g");
     this.e=this.e.replace(this.p," ");
     this.e=this.e.toLowerCase();
-    for(let produit of this.produits){
+    for(let approv of this.approvs){
       this.p=false;
-      if(String(produit.name).toLowerCase().search(this.e)!=-1){
+      if(String(approv.name).toLowerCase().search(this.e)!=-1){
         this.p=true;
       }
       if(this.p){
-        this.produitsFilter.push(produit);
+        this.approvsFilter.push(approv);
       }
     }    
-    this.produitsService.emitProduitsFilterSubject();
+    this.approvService.emitApprovsFilterSubject();
+  }
+
+  updatenbr(){
+    this.nbr++;
+  }
+  
+  reset(){
+    this.nbr=1;
   }
 
   ngOnDestroy(){

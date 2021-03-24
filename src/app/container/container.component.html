@@ -23,23 +23,21 @@
   <!-- Links -->
   <ul class="navbar-nav ml-auto" id="content">
     <li class="nav-item">
-      <a class="nav-link" href=""><i class="fa fa-check"></i>Approv</a>
-    </li>
-    <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" routerLink="reapprov">ReApprov</a>
-    </li>
-    <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" routerLink="produits">Produits</a>
+      <a class="nav-link" [routerLink]="['/approv']"><i class="fa fa-check"></i>Approv</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="">Stats</a>
+      <a class="nav-link" [routerLink]="['/reapprov']">ReApprov</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/produits']">Produits</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/produits']">Stats</a>
     </li>
   </ul>
 </nav>
 
-
 <router-outlet></router-outlet>
-
 
 </body>
 </html>
